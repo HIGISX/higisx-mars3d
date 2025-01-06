@@ -43,7 +43,7 @@
         </a-col>
         <a-col :span="6" v-if="formState.customHeading">
           <mars-slider class="sliderlen" @change="updateHeading" v-model:value="formState.slideHeadingStep" :min="0"
-            :max="360" :step="0.01" />
+                       :max="360" :step="0.01" />
         </a-col>
         <a-col :span="8" v-if="!formState.customHeading"> 根据路线自动 </a-col>
       </a-row>
@@ -57,7 +57,7 @@
         </a-col>
         <a-col :span="6" v-if="formState.customPitch">
           <mars-slider class="sliderlen" @change="updatePitch" v-model:value="formState.slidePitchStep" :min="0"
-            :max="360" :step="0.01" />
+                       :max="360" :step="0.01" />
         </a-col>
         <a-col :span="8" v-if="!formState.customPitch"> 根据路线自动 </a-col>
       </a-row>
@@ -71,7 +71,7 @@
         </a-col>
         <a-col :span="6" v-if="formState.customRoll">
           <mars-slider class="sliderlen" @change="updateRoll" v-model:value="formState.slideRollStep" :min="0" :max="360"
-            :step="0.01" />
+                       :step="0.01" />
         </a-col>
         <a-col :span="8" v-if="!formState.customRoll"> 根据路线自动 </a-col>
       </a-row>
@@ -82,14 +82,14 @@
         <mars-button class="start-btn" v-show="!formState.isStart" @click="btnStart">开始</mars-button>
         <mars-button class="pause-btn" v-show="formState.isStart && !formState.isPause" @click="btnPause">暂停</mars-button>
         <mars-button class="proceed-btn" v-show="formState.isStart && formState.isPause"
-          @click="btnProceed">继续</mars-button>
+                     @click="btnProceed">继续</mars-button>
         <mars-button class="stop-btn" v-show="formState.isStart" @click="btnStop">停止</mars-button>
       </div>
 
     </div>
   </mars-dialog>
 
-  <fixedRoute-info />
+
 </template>
 
 <script setup lang="ts">
