@@ -96,7 +96,7 @@ const loadEarthData = () => {
 }
 // 局部加载数据
 const loadDongnanData = () => {
-  mapWork.loadDongnanData()
+  mapWork.loadDongnanData2()
 }
 </script>
 <style scoped lang="less">

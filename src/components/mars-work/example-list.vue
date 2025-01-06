@@ -5,6 +5,8 @@
     <div class="page-box">
       <!--   侧边栏  -->
       <div class="sidebar">
+
+
         <div class="sidebar-1" v-for="item in examples_list" :key="item.id">
           <div class="side1-item">
             <i class="fa" :class="item.icon"></i>

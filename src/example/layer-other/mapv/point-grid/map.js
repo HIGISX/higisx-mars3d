@@ -1,6 +1,9 @@
 import * as mars3d from "mars3d"
+import axios from "axios"
 
 export let map // mars3d.Map三维地图对象
+// const axios = require("axios")
+
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -27,21 +30,71 @@ function createMapvLayer() {
   // 构造数据
   const positions = []
   const geojson = []
-  let randomCount = 300
-  while (randomCount--) {
-    // 取区域内的随机点
-    const point = [random(113 * 1000, 119 * 1000) / 1000, random(28 * 1000, 35 * 1000) / 1000]
+  const x_data = []
+  const y_data = []
+  const num_data = []
+  let data1 = []
+  // let randomCount = 300
 
-    positions.push(Cesium.Cartesian3.fromDegrees(point[0], point[1]))
 
-    geojson.push({
-      geometry: {
-        type: "Point",
-        coordinates: point
-      },
-      count: 30 * Math.random()
-    })
+  const xhr = new XMLHttpRequest()
+  xhr.open("GET", "http://127.0.0.1:5000/api/tif1", false)
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      data1 = JSON.parse(xhr.responseText)
+      // console.log(dataLength)
+      // console.log(data.x)
+      for (let i = 0; i < data1.x.length; i++) {
+        // console.log(data.x[i])
+        x_data.push(data1.x[i])
+      }
+
+      for (let i = 0; i < data1.y.length; i++) {
+        // console.log(data.x[i])
+        y_data.push(data1.y[i])
+      }
+
+
+    }
   }
+  xhr.send()
+  // console.log(data1.data)
+  // console.log(data1.data)
+  console.log(x_data.length)
+  for (let i = 0; i < x_data.length / 1; i += 100) {
+    for (let j = 0; j < y_data.length / 1; j += 100) {
+      // console.log("aaa")
+      // console.log(data1.data[i][j])
+      const point = [x_data[i], y_data[j]]
+      positions.push(Cesium.Cartesian3.fromDegrees(point[0], point[1]))
+      geojson.push({
+        geometry: {
+          type: "Point",
+          coordinates: point
+        },
+        count: data1.data[i][j]
+      })
+    }
+    }
+
+  // while (randomCount--) {
+  //   // 取区域内的随机点
+  //   const point = [random(113 * 1000, 119 * 1000) / 1000, random(28 * 1000, 35 * 1000) / 1000]
+  //
+  //   positions.push(Cesium.Cartesian3.fromDegrees(point[0], point[1]))
+  //
+  //   geojson.push({
+  //     geometry: {
+  //       type: "Point",
+  //       coordinates: point
+  //     },
+  //     count: 30 * Math.random()
+  //   })
+  //   if (randomCount === 0) {
+  //     console.log(point)
+  //   }
+  //
+  // }
   map.camera.flyTo({
     destination: Cesium.Rectangle.fromCartesianArray(positions)
   })

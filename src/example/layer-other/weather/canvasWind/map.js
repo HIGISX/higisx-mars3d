@@ -3,7 +3,7 @@
  * @Date: 2024-12-11 22:01:28
  * @LastEditTime: 2025-01-02 11:03:51
  * @LastEditors: DC
- * @Description: 
+ * @Description:
  * @FilePath: /mars3d-vue-example-master/src/example/layer-other/weather/canvasWind/map.js
  * Never lose my passion
  */
@@ -96,6 +96,7 @@ export function changeColor(color) {
 let earthWindData
 // 加载气象
 let dongnanWindData
+
 export function loadEarthData() {
   map.flyHome()
 
@@ -125,9 +126,75 @@ export function loadEarthData() {
       console.log("请求数据失败!", err)
     })
 }
+
 // 加载局部数据
 export function loadDongnanData() {
-  map.setCameraView({ lat: 30.484229, lng: 116.627601, alt: 1719951, heading: 0, pitch: -90, roll: 0 })
+  // map.setCameraView({ lat: 30.484229, lng: 116.627601, alt: 1719951, heading: 0, pitch: -90, roll: 0 })
+
+  canvasWindLayer.speedRate = 85
+  canvasWindLayer.reverseY = true // true时表示 纬度顺序从小到到大
+
+  // 访问windpoint.json后端接口，取数据
+  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/windpoint.json" })
+    .then(function (res) {
+      if (dongnanWindData) {
+        canvasWindLayer.data = dongnanWindData
+        return
+      }
+      dongnanWindData = convertWindData(res.data)
+      console.log("aaaa")
+      console.log(dongnanWindData)
+      canvasWindLayer.data = dongnanWindData
+      canvasWindLayer.fixedHeight = 60000
+      // console.log(canvasWindLayer._canvasParticles.length)
+      // 10000
+      const data = { canvas1: canvasWindLayer._canvasParticles.length }
+      const jsonData = JSON.stringify(data)
+      const xhr = new XMLHttpRequest()
+      let data1 = []
+      xhr.open("POST", "http://127.0.0.1:5000/GetCanvasParticlesLen", false)
+      xhr.setRequestHeader("Content-type", "application/json")
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          const response = JSON.parse(xhr.responseText)
+          console.log(response)
+        }
+      }
+      xhr.send(jsonData)
+
+      xhr.open("GET", "http://127.0.0.1:5000/MakeCanvasParticles", false)
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          data1 = JSON.parse(xhr.responseText)
+          // console.log(dataLength)
+          // console.log(data.x)
+        }
+      }
+      xhr.send()
+      map.setCameraView({ lat: data1.lat[0], lng: data1.lng[0], alt: 1719951, heading: 0, pitch: -90, roll: 0 })
+      console.log(data1.lat[0])
+      console.log(data1.lng[0])
+
+      // 热力图
+      setTimeout(function () {
+        const arrPoints = []
+        const particles = canvasWindLayer._canvasParticles
+        for (let index = 0, len = particles.length; index < len; index++) {
+          const item = particles[index]
+          // console.log(data1.lat[index])
+          arrPoints.push({ lat: data1.lat[index], lng: data1.lng[index], value: item.speed })
+        }
+        showHeatMap(arrPoints)
+      }, 3000)
+    })
+    .catch(function () {
+      globalMsg("实时查询气象信息失败，请稍候再试")
+    })
+}
+
+export function loadDongnanData2() {
+  // 160.48103,24.249019
+  map.setCameraView({ lat: 160.48103, lng: 24.249019, alt: 10719951, heading: 0, pitch: -90, roll: 0 })
 
   canvasWindLayer.speedRate = 85
   canvasWindLayer.reverseY = true // true时表示 纬度顺序从小到到大
@@ -193,10 +260,26 @@ function convertWindData(arr) {
 
     const v = mars3d.WindUtil.getV(item.speed, item.dir)
     arrV.push(v)
+    // console.log(arr.length)
+    // const u = mars3d.WindUtil.getU(item.speed, data1[i])
+    // arrU.push(u)
+    //
+    // const v = mars3d.WindUtil.getV(item.speed, data1[i])
+    // arrV.push(v)
   }
 
   const rows = getKeyNumCount(arr, "y") // 计算 行数
   const cols = getKeyNumCount(arr, "x") // 计算 列数
+  console.log(xmin)
+  console.log(xmax)
+  console.log(ymin)
+  console.log(ymax)
+  // 137.81556,31.121372
+  // 197.717159,8.316969
+  xmin = 137.81556
+  xmax = 197.717159
+  ymax = 31.121372
+  ymin = 8.316969
 
   return {
     xmin,
@@ -224,6 +307,7 @@ function getKeyNumCount(arr, key) {
 }
 
 let heatLayer
+
 function showHeatMap(arrPoints) {
   if (heatLayer) {
     heatLayer.destroy()

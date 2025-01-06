@@ -3,7 +3,7 @@
  * @Date: 2024-12-11 22:01:28
  * @LastEditTime: 2025-01-02 14:48:16
  * @LastEditors: DC
- * @Description: 
+ * @Description:
  * @FilePath: /mars3d-vue-example-master/vite.config.ts
  * Never lose my passion
  */
@@ -25,10 +25,11 @@ export default ({ mode }: ConfigEnv) => {
   console.log(`当前环境信息：`, mode)
   console.log(`ENV：`, ENV)
 
+
   return defineConfig({
     base: ENV.VITE_BASE_URL,
     server: {
-      host: "localhost",
+      host: "0.0.0.0",
       port: 3001
     },
     define: {

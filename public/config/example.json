@@ -3967,6 +3967,16 @@
             ]
           },
           {
+            "name": "雷达挤压2",
+            "thumbnail": "thirdParty-qe-extrusion.jpg",
+            "main": "thirdParty/quickearth/extrusion2",
+            "hasPannel": true,
+            "libs": [
+              "mars3d",
+              "quickearth"
+            ]
+          },
+          {
             "name": "高度拉升动画",
             "thumbnail": "thirdParty-qe-liftAnimator.jpg",
             "main": "thirdParty/quickearth/liftAnimator",
