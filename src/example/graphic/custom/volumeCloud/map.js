@@ -8,7 +8,7 @@ export const eventTarget = new mars3d.BaseClass()
 
 export const mapOptions = {
   scene: {
-    center: { lat: 28.750173, lng: 116.904665, alt: 353676.9, heading: 1.4, pitch: -50 }
+    center: { lat: 15.269967, lng: 109.710527, alt: 353676.9, heading: 1.4, pitch: -50 }
   }
 }
 
@@ -26,7 +26,7 @@ export function onMounted(mapInstance) {
   map.addLayer(graphicLayer)
 
   // 加一些演示数据
-  mars3d.Util.fetchJson({ url: "//data.mars3d.cn/file/apidemo/volumeCloud.json" })
+  mars3d.Util.fetchJson({ url: "src/volumeCloud.json" })
     .then(function (data) {
       console.log("演示数据data", data)
 
@@ -64,6 +64,8 @@ const colors = [
 ]
 const steps = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65]
 
+// 109.710527,16.269967
+// 111.104123,16.84224
 function addDemoGraphic1(data) {
   // 创建气象数据体渲染模型
   const volumeCloud = new mars3d.graphic.VolumeCloud({
@@ -73,10 +75,15 @@ function addDemoGraphic1(data) {
       heights: data.heights, // 高网格数
       values: data.values, // 3D 数据集数组, 数组长度应该是 rows*cols*heights, 顺序为： [height1-row1-col1, height1-row1-col2,…… ,height1-row2-col1, height1-row2-col2,…… ,height2-row1-col1, height2-row1-col2,……]
 
-      xmin: data.xmin, // 最小经度（度数，-180-180）
-      xmax: data.xmax, // 最大经度（度数，-180-180）
-      ymin: data.ymin, // 最小纬度（度数，-90-90）
-      ymax: data.ymax, // 最大纬度（度数，-90-90）
+      // xmin: data.xmin, // 最小经度（度数，-180-180）
+      // xmax: data.xmax, // 最大经度（度数，-180-180）
+      // ymin: data.ymin, // 最小纬度（度数，-90-90）
+      // ymax: data.ymax, // 最大纬度（度数，-90-90）
+      xmin: 109.710527, // 最小经度（度数，-180-180）
+      xmax: 111.104123, // 最大经度（度数，-180-180）
+      ymin: 16.569967, // 最小纬度（度数，-90-90）
+      ymax: 17.14224, // 最大纬度（度数，-90-90）
+
       zmin: data.zmin, // 最小高度
       zmax: data.zmax // 最大高度
     },

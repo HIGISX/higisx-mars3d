@@ -83,7 +83,7 @@ async function createTempAnimation() {
 
 
 
-  const buffers = await getBinary("http://data.mars3d.cn/file/qe/data/year.ano.zip")
+  const buffers = await getBinary("src/year.ano.zip")
   const provider = new QEGridDataProvider(buffers[0])
 
   console.log(provider)

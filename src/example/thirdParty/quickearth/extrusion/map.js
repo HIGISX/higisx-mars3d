@@ -3,12 +3,14 @@ import * as mars3d from "mars3d"
 
 export let map // mars3d.Map三维地图对象
 // 19.24445478403803, 109.73950791600846
+// 109.724325,17.3421
+// 109.710527,16.269967
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 export const mapOptions = {
   scene: {
     center: {
-      lat: 19.24445478403803,
-      lng: 109.73950791600846,
+      lat: 16.3421,
+      lng: 109.724325,
       alt: 238162.1,
       heading: 359.5,
       pitch: -41.4
@@ -77,11 +79,14 @@ async function initDemoData() {
   }
   // 19.77854587771838, 110.57072766159034
   // 18.58542778584455, 109.0254622190309
+
+  // 109.411859,18.412045
+  // 109.782104,18.089027
   const options = {
-    xStart: 110.57072766159034,
-    xEnd: 109.0254622190309,
-    yStart: 19.77854587771838,
-    yEnd: 18.58542778584455,
+    xStart: 109.411859,
+    xEnd: 109.782104,
+    yStart: 18.412045,
+    yEnd: 18.089027,
     xSize: 100,
     ySize: 100
   }
@@ -89,11 +94,11 @@ async function initDemoData() {
   const provider2 = new Array2DGridDataProvider(dataArr, { gridOptions: options })
 
   // 加载数据
-  const buffers = await getBinary("http://data.mars3d.cn/file/qe/data/Z_OTHE_RADAMOSAIC_20220412000000.bin.zip")
-  const provider = new MicapsDiamond131GridDataProvider(buffers[0])
-  console.log(provider.meta)
-  console.log(provider.allGrids())
-  console.log(provider.getGrid().maxMin)
+  // const buffers = await getBinary("http://data.mars3d.cn/file/qe/data/Z_OTHE_RADAMOSAIC_20220412000000.bin.zip")
+  // const provider = new MicapsDiamond131GridDataProvider(buffers[0])
+  // console.log(provider.meta)
+  // console.log(provider.allGrids())
+  // console.log(provider.getGrid().maxMin)
   // 实时计算组合反射率底面（业务上建议单独输出组合反射率，减少前端计算）
   const cr = getCR(provider2, 0, true, false).upper
   const pixelStyle = {

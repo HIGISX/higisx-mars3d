@@ -4,7 +4,16 @@ import axios from "axios"
 export let map // mars3d.Map三维地图对象
 // const axios = require("axios")
 
-
+export const mapOptions = {
+  scene: {
+    center: { lat: 18.2370580, lng: 109.3777565, alt: 10000515, heading: 30001, pitch: -50 }
+  },
+  control: {
+    clockAnimate: true, // 时钟动画控制(左下角)
+    timeline: true, // 是否显示时间线控件
+    compass: { bottom: "380px", left: "5px" }
+  }
+}
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
  * 框架在地图初始化完成后自动调用该函数
