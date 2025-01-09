@@ -94,7 +94,7 @@ function addGraphicLayer() {
       radius: 500
     },
     model: {
-      url: "//data.mars3d.cn/gltf/mars/MQ-9-Predator.glb",
+      url: "src/MQ-9-Predator.glb",
       scale: 1,
       // heading: 0,
       minimumPixelSize: 100
